@@ -1,1 +1,3 @@
-It's for myself!
+# Intro to Git
+
+Testing my skills!
