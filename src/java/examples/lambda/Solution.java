@@ -17,10 +17,15 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        System.out.println(users.stream().map(user -> user.getName()).collect(Collectors.joining(", ")));
-        users.stream().map(user -> user.getAuth()).forEach(arr -> System.out.printf("Login: %s  \t| password: %s%n", arr.get(0), arr.get(1)));
+//        System.out.println(users.stream().map(user -> user.getName()).collect(Collectors.joining(", ")));
+//        users.stream().map(user -> user.getAuth()).forEach(arr -> System.out.printf("Login: %s  \t| password: %s%n", arr.get(0), arr.get(1)));
+//
+//        System.out.println(users.stream().map(User::getName).min(Comparator.comparingInt(String::length)).get());
 
-        System.out.println(users.stream().map(User::getName).min(Comparator.comparingInt(String::length)).get());
-
+        ArrayList<String> list = new ArrayList<>();
+        list.add("1dadwda");
+        list.add("12d");
+        list.sort((o1, o2) -> Integer.compare(o2.length(), o1.length()));
+        list.forEach(System.out::println);
     }
 }
