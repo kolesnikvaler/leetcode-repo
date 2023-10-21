@@ -1,4 +1,1 @@
-select * from employee;
-
-DELETE FROM employee
-where id = 8;
+select *, salary DIV 1000 AS r from employee
