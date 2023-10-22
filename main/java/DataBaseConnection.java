@@ -1,27 +1,89 @@
+import lombok.NonNull;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DataBaseConnection {
+    private static Statement statement = null;
+    private static ResultSet resultSet = null;
+
+    public DataBaseConnection(Connection connection) throws SQLException {
+        statement = connection.createStatement();
+    }
+
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/app",
                 "", ""
         );
 
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM app.user");
+        DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
 
+//        dataBaseConnection.printTable();
+//        dataBaseConnection.printResultMetaData();
+//        dataBaseConnection.updateSalaryOfAllEmployeesOnPercent((float) (Math.random() + 0.5) );
+
+        dataBaseConnection.executeAndPrintSqlQuery("SELECT id, name FROM app.employee;");
+
+        dataBaseConnection.insertRowInEmployeeTable("Valeriy", "DIRECTOR", 100000, 10000);
+
+
+
+        connection.close();
+    }
+
+    public void insertRowInEmployeeTable(@NonNull String name, String role, int salary, int level) throws SQLException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String sql = String.format(
+                "INSERT INTO app.employee (name, emp_role, salary, level, created_date) " +
+                "VALUES ('%s', '%s', %d, %d, '%s');", name, role, salary, level, format.format(new Date()));
+        int rows = statement.executeUpdate(sql);
+        System.out.println(rows + " was changed!");
+    }
+
+    public void executeAndPrintSqlQuery(String sql){
+        try {
+            boolean hasResults = statement.execute(sql);
+            if (hasResults){
+                ResultSet result = statement.getResultSet();
+                System.out.println("Строки вашего запроса ниже: ");
+
+                while (result.next()){
+                    System.out.printf("%d. %s\t%s%n", result.getRow(), result.getInt(1), result.getString(2));
+                }
+            } else {
+                System.out.println("Changed rows count: " + statement.getUpdateCount());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateSalaryOfAllEmployeesOnPercent(float index) throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM app.employee");
+        int rowCount = statement.executeUpdate(String.format("UPDATE app.employee SET salary = salary * %s;", index));
+        System.out.println();
+        System.out.println("rowCount = " + rowCount + " | index = " + index);
+    }
+
+    private void printTable() throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM app.employee");
         System.out.println("row\tid\temployee\tcreated_date");
         // ------------------------------Работаем с данными таблицы
         SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM");
         while (resultSet.next()){
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
-            Date date = resultSet.getDate("created_date");
+            Date date = resultSet.getObject("created_date", Date.class);
             System.out.println(resultSet.getRow() + ".\t" + id + "\t" +
                     (name.length() < 5? (name + "   ").substring(0, 5): name.substring(0, 5))
                     + "\t\t" + format.format(date));
         }
+    }
+
+    private void printResultMetaData() throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM app.employee");
         // ------------------------------Работаем с метаданными таблицы
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
@@ -34,6 +96,5 @@ public class DataBaseConnection {
 
             System.out.printf("%s\t%s\t%s\t%d%n", name, className, typeName, type);
         }
-        connection.close();
     }
 }
