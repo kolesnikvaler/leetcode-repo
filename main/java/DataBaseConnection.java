@@ -5,10 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DataBaseConnection {
-    private static Statement statement = null;
-    private static ResultSet resultSet = null;
+    private final Connection connection;
+    private Statement statement = null;
+    private PreparedStatement prStm;
+    private ResultSet resultSet = null;
 
     public DataBaseConnection(Connection connection) throws SQLException {
+        this.connection = connection;
         statement = connection.createStatement();
     }
 
@@ -24,14 +27,32 @@ public class DataBaseConnection {
 //        dataBaseConnection.printResultMetaData();
 //        dataBaseConnection.updateSalaryOfAllEmployeesOnPercent((float) (Math.random() + 0.5) );
 
+
+//        dataBaseConnection.insertRowWithPrepareStatementInEmployeeTable("Petya", "GUEST", 0, 10);
+
         dataBaseConnection.executeAndPrintSqlQuery("SELECT id, name FROM app.employee;");
-
-        dataBaseConnection.insertRowInEmployeeTable("Valeriy", "DIRECTOR", 100000, 10000);
-
 
 
         connection.close();
     }
+
+    public void insertRowWithPrepareStatementInEmployeeTable(@NonNull String name, String role, int salary, int level) throws SQLException{
+        String sql = "INSERT INTO app.employee (name, emp_role, salary, level, created_date) " +
+                "VALUES (?, ?, ?, ?, ?);";
+        //  Prepare for INSERTING
+        prStm = connection.prepareStatement(sql);
+
+        //  INSERT
+        prStm.setString(1, name);
+        prStm.setString(2, role);
+        prStm.setInt(3, salary);
+        prStm.setInt(4, level);
+        prStm.setDate(5, new java.sql.Date(new Date().getTime()));
+
+        //  Update prepareStatement
+        prStm.executeUpdate();
+    }
+
 
     public void insertRowInEmployeeTable(@NonNull String name, String role, int salary, int level) throws SQLException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
