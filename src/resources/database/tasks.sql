@@ -1,4 +1,4 @@
-USE test_scheme;
+USE app;
 
 SELECT * FROM task;
 
