@@ -18,7 +18,7 @@ public class DataBaseConnection {
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/app",
-                "", ""
+                "root", "ADJWHI#@Qad32d1_!d"
         );
 
         DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
