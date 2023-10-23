@@ -1,5 +1,10 @@
 import lombok.NonNull;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,23 +25,41 @@ public class DataBaseConnection {
                 "jdbc:mysql://localhost:3306/app",
                 "root", "ADJWHI#@Qad32d1_!d"
         );
+//        DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
 
-        DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
+        String sql = "UPDATE app.test_tab t SET t.Blob = ? WHERE t.id = 2;";
+        PreparedStatement prSt = connection.prepareStatement(sql);
+
+        // Создаем объект Blob и получаем у него OutputStream для записи в него данных
+        Blob blob = connection.createBlob();
+
+        // Заполняем Blob данными ...
+        try {
+            Path file1TXT = Paths.get("C:/ForTest/file1.txt");
+            byte[] content = Files.readAllBytes(file1TXT);
+            blob.setBytes(1, content);
+        } catch (IOException e) {
+            connection.close();
+            throw new RuntimeException(e);
+        }
+
+        prSt.setBlob(1, blob);
+        prSt.execute();
 
 //        dataBaseConnection.printTable();
 //        dataBaseConnection.printResultMetaData();
 //        dataBaseConnection.updateSalaryOfAllEmployeesOnPercent((float) (Math.random() + 0.5) );
 
 
-//        dataBaseConnection.insertRowWithPrepareStatementInEmployeeTable("Petya", "GUEST", 0, 10);
+        /*dataBaseConnection.insertRowWithPrepareStatementInEmployeeTable("Petya", "GUEST", 0, 10);
 
-        dataBaseConnection.executeAndPrintSqlQuery("SELECT id, name FROM app.employee;");
-
+        dataBaseConnection.executeAndPrintSqlQuery("SELECT id, name FROM app.employee;");*/
 
         connection.close();
     }
 
-    public void insertRowWithPrepareStatementInEmployeeTable(@NonNull String name, String role, int salary, int level) throws SQLException{
+    public void insertRowWithPrepareStatementInEmployeeTable(@NonNull String name, String role, int salary, int level)
+            throws SQLException{
         String sql = "INSERT INTO app.employee (name, emp_role, salary, level, created_date) " +
                 "VALUES (?, ?, ?, ?, ?);";
         //  Prepare for INSERTING
