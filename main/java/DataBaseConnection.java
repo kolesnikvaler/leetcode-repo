@@ -23,11 +23,11 @@ public class DataBaseConnection {
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/app",
-                "root", "ADJWHI#@Qad32d1_!d"
+                "", ""
         );
 //        DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
 
-        String sql = "UPDATE app.test_tab t SET t.Blob = ? WHERE t.id = 2;";
+        String sql = "UPDATE app.test_tab t SET t.Blob = ? WHERE t.id = 3;";
         PreparedStatement prSt = connection.prepareStatement(sql);
 
         // Создаем объект Blob и получаем у него OutputStream для записи в него данных
