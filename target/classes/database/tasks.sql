@@ -1,4 +1,4 @@
-USE test_scheme;
+USE app;
 
 SELECT * FROM task;
 
@@ -19,3 +19,7 @@ WHERE DATEDIFF(deadline, CURDATE()) < 7;
 SELECT CONCAT('EXPIRED ', CURDATE() - task.deadline, ' days ago! ', task_desc) AS description,
        deadline, CURDATE() AS cur_date FROM task
 where deadline < CURDATE();
+
+SELECT * FROM test_tab;
+
+SELECT * FROM user;
