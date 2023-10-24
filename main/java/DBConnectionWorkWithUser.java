@@ -8,7 +8,7 @@ public class DBConnectionWorkWithUser {
     public static void main(String[] args) throws SQLException {
         Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/app",
-                "root", "ADJWHI#@Qad32d1_!d"
+                "", ""
         );
 
 //        User user = new User(1, "Kolya", "DIRECTOR", 100000, Timestamp.valueOf(LocalDateTime.now()));
