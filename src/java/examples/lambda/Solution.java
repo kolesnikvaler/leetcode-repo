@@ -20,7 +20,7 @@ public class Solution {
 //        System.out.println(users.stream().map(user -> user.getName()).collect(Collectors.joining(", ")));
 //        users.stream().map(user -> user.getAuth()).forEach(arr -> System.out.printf("Login: %s  \t| password: %s%n", arr.get(0), arr.get(1)));
 //
-//        System.out.println(users.stream().map(User::getName).min(Comparator.comparingInt(String::length)).get());
+//        System.out.println(users.stream().map(hiber.User::getName).min(Comparator.comparingInt(String::length)).get());
 
         ArrayList<String> list = new ArrayList<>();
         list.add("1dadwda");

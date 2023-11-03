@@ -1,3 +1,5 @@
+package test_connection;
+
 import javax.sql.RowSet;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 
 public class RowSetDBConnectionSolution {
     public static void main(String[] args) throws SQLException {
-        /*Connection connection = MyConnection.getInstance();
+        /*Connection connection = test_connection.MyConnection.getInstance();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM app.user;");
 
