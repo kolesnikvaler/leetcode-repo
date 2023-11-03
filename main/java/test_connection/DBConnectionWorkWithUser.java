@@ -1,3 +1,8 @@
+package test_connection;
+
+
+import hiber.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +14,7 @@ public class DBConnectionWorkWithUser {
                 "", ""
         );
 
-//        User user = new User(1, "Kolya", "DIRECTOR", 100000, Timestamp.valueOf(LocalDateTime.now()));
+//        hiber.User user = new hiber.User(1, "Kolya", "DIRECTOR", 100000, Timestamp.valueOf(LocalDateTime.now()));
 //        addUser(connection, user);
 
 //        removeUserById(connection, 3);
@@ -26,7 +31,7 @@ public class DBConnectionWorkWithUser {
                 "VALUES (?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(insertQuery);
 
-        // Заполняем запрос данными из объекта User
+        // Заполняем запрос данными из объекта hiber.User
         statement.setInt(1, user.getId());
         statement.setString(2, user.getName());
         statement.setString(3, user.getOccupation());
@@ -58,7 +63,7 @@ public class DBConnectionWorkWithUser {
         if (!resultSet.next())
             return null;
 
-        // Заполняем объект User данными из ResultSet
+        // Заполняем объект hiber.User данными из ResultSet
         return getUser(resultSet);
     }
 

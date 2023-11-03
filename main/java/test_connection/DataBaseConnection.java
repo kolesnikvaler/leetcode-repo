@@ -1,3 +1,5 @@
+package test_connection;
+
 import lombok.NonNull;
 
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class DataBaseConnection {
                 "jdbc:mysql://localhost:3306/app",
                 "", ""
         );
-//        DataBaseConnection dataBaseConnection = new DataBaseConnection(connection);
+//        test_connection.DataBaseConnection dataBaseConnection = new test_connection.DataBaseConnection(connection);
 
         String sql = "UPDATE app.test_tab t SET t.Blob = ? WHERE t.id = 3;";
         PreparedStatement prSt = connection.prepareStatement(sql);

@@ -1,3 +1,5 @@
+package test_connection;
+
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import java.sql.Connection;
